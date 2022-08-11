@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrawlGen.Model
+namespace CrawlGen.Model.Dungeon
 {
     public enum DungeonCell
     {

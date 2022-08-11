@@ -2,18 +2,16 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace CrawlGen.Model
+namespace CrawlGen.Model.Dungeon
 {
     public class DungeonMap
     {
         public readonly List<Room> Rooms = new();
-        public readonly CellGrid<DungeonCell> Cells;
-        public string Name;
+        public readonly Grid<DungeonCell> Cells;
 
-        public DungeonMap(string name, int width, int height)
+        public DungeonMap(int width, int height)
         {
-            Name = name;
-            Cells = new CellGrid<DungeonCell>(width, height);
+            Cells = new Grid<DungeonCell>(width, height);
         }
 
         public Room AddRoom(Room room)

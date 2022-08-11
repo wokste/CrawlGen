@@ -1,4 +1,5 @@
-﻿using CrawlGen.Model;
+﻿using CrawlGen.Grid;
+using CrawlGen.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,27 +8,25 @@ using System.Threading.Tasks;
 
 namespace CrawlGen.Gen
 {
-    internal static class HeightGen
+    internal static class FieldGen
     {
-        public static HexGrid<double> MakeGrid(int w, int h)
-        {
-            HeightField field = new HeightField(w, h);
-            field.SetSlope(Rng.UniformDouble(2 * Math.PI), 0.2);
-            field.AddCone(Rng.UniformDouble(-0.2, 0.4));
-
-            HexGrid<double> grid = new(w,h);
-
-            foreach (var c in grid.Indices)
-            {
-                var height = field.Get(c);
-                height += Rng.UniformDouble(0.1);
-                grid[c] = height;
-            }
-
-            return grid;
+        public interface IField {
+            public double Get(PointF pos);
         }
 
-        class HeightField {
+        public class RandField : IField
+        {
+            readonly double Max;
+
+            public RandField(double max)
+            {
+                Max = max;
+            }
+
+            public double Get(PointF pos) => Rng.UniformDouble(Max);
+        }
+
+        public class ConeField : IField {
             double Width, Height;
 
             double X, Y;
@@ -35,10 +34,12 @@ namespace CrawlGen.Gen
             double XY;
             double Base;
 
-            internal HeightField(double width, double height)
+            public static ConeField MakeRand()
             {
-                Width = width;
-                Height = height;
+                ConeField field = new();
+                field.SetSlope(Rng.UniformDouble(2 * Math.PI), 3);
+                field.AddCone(Rng.UniformDouble(-0.2, 0.4));
+                return field;
             }
 
             internal void AddCone(double height) {
@@ -53,9 +54,9 @@ namespace CrawlGen.Gen
                 Y = Math.Cos(alpha) * slope;
             }
 
-            internal double Get(HexCoords coords)
+            public double Get(PointF pos)
             {
-                var (x, y) = coords.GetMapCoords();
+                var (x, y) = pos.XY;
                 x = x * 2 / Width - 1;
                 y = y * 2 / Height - 1;
 

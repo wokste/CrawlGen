@@ -20,5 +20,16 @@ namespace CrawlGen.Grid
             Width = width;
             Height = height;
         }
+
+
+        internal IEnumerable<Point> Iter
+        {
+            get
+            {
+                for (int y = Y; y < Y + Height; ++y)
+                    for (int x = X; x < X + Width; ++x)
+                        yield return new Point(x, y);
+            }
+        }
     }
 }

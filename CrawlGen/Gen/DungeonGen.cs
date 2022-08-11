@@ -1,4 +1,5 @@
 ﻿using CrawlGen.Model;
+using CrawlGen.Model.Dungeon;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,11 +11,11 @@ namespace CrawlGen.Gen
 {
     internal static class DungeonGen
     {
-        public static DungeonMap MakeMap(Biome biome)
+        public static DungeonMap MakeMap()
         {
             int w = 4; int h = 3;
             int AREA_W = 9; int AREA_H = 9;
-            DungeonMap map = new(GenName(), w * AREA_W, h * AREA_H);
+            DungeonMap map = new(w * AREA_W, h * AREA_H);
 
             for (int x = 0; x < w; x++)
             {
@@ -54,13 +55,6 @@ namespace CrawlGen.Gen
 
         }
 
-        private static string GenName() {
-            string[] first = new[] { "Dungeon", "Keep", "Castle", "Temple", "Ruins", "Mines" };
-            string[] second = new[] { "Doom", "Chaos", "Death", "Carnage", "Rampage" };
-
-            return $"{Rng.TakeOne(first)} of {Rng.TakeOne(second)}";
-        }
-
         private static void CarveRoom(DungeonMap map, Room room)
         {
             map.AddRoom(room);
@@ -84,7 +78,7 @@ namespace CrawlGen.Gen
             // TODO: Sort based on location
 
             for (int i = 0; i < map.Rooms.Count; i++)
-                map.Rooms[i].KeyInt = i + 1;
+                map.Rooms[i].Key = i + 1;
         }
     }
 }
