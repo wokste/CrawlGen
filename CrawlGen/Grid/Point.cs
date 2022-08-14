@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CrawlGen.Grid
+﻿namespace CrawlGen.Grid
 {
-    public class Point
+    public struct Point
     {
         public readonly int X;
         public readonly int Y;
@@ -19,15 +13,15 @@ namespace CrawlGen.Grid
 
         public (int, int) XY => (X, Y);
 
-        public PointF AsReal => new PointF(X, Y);
+        public PointD AsReal => new PointD(X, Y);
     }
 
-    public class PointF
+    public struct PointD
     {
         public readonly double X;
         public readonly double Y;
 
-        public PointF(double x, double y)
+        public PointD(double x, double y)
         {
             X = x;
             Y = y;

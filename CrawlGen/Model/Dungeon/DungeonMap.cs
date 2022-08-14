@@ -1,6 +1,4 @@
 ﻿using CrawlGen.Grid;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace CrawlGen.Model.Dungeon
 {

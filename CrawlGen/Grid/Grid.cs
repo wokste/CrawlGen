@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CrawlGen.Grid
+﻿namespace CrawlGen.Grid
 {
     public class Grid<T>
     {
         public T[,] Cells;
-        public int Width;
-        public int Height;
+        public int Width => Cells.GetLength(0);
+        public int Height => Cells.GetLength(1);
 
         public Grid(int width, int height)
         {
             Cells = new T[width,height];
-
-            Width = width;
-            Height = height;
         }
 
         internal IEnumerable<Point> Keys

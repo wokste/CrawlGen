@@ -1,9 +1,4 @@
 ﻿using CrawlGen.Gen;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrawlGen.Grid
 {
@@ -11,22 +6,26 @@ namespace CrawlGen.Grid
     {
         public GridF(int width, int height) : base(width, height)
         {
+            foreach (var pos in Keys)
+                this[pos] = 0;
         }
 
         internal void AddField(FieldGen.IField field)
         {
+            double w = Width;
+            double h = Height;
             foreach (var pos in Keys)
             {
-                double w = Width;
-                double h = Height;
-                PointF posF = new(pos.X / w, pos.Y / h);
+                PointD posF = new(pos.X / w, pos.Y / h);
 
                 this[pos] += field.Get(posF);
             }
         }
 
-        internal double Sample(PointF pos)
+        internal double Sample(PointD pos)
         {
+            double Lerp(double a, double b, double f) => (a * (1.0 - f)) + (b * f);
+
             int xInt = (int)Math.Floor(pos.X);
             int yInt = (int)Math.Floor(pos.Y);
 
@@ -38,8 +37,9 @@ namespace CrawlGen.Grid
             var v10 = Cells[xInt + 1, yInt];
             var v11 = Cells[xInt + 1, yInt + 1];
 
-            // TODO: Lerping
-            return v00;
+            var v0 = Lerp(v00, v01, yFrac);
+            var v1 = Lerp(v10, v11, yFrac);
+            return Lerp(v0, v1, xFrac);
         }
     }
 }

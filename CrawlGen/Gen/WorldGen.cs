@@ -1,10 +1,5 @@
-﻿using CrawlGen.Model;
+﻿using CrawlGen.Grid;
 using CrawlGen.Model.Overworld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static CrawlGen.Gen.FieldGen;
 
 namespace CrawlGen.Gen
@@ -18,21 +13,53 @@ namespace CrawlGen.Gen
             world.HeightMap.AddField(ConeField.MakeRand());
             world.HeightMap.AddField(new RandField(0.1));
 
-            // TODO: Add village
+            world.PlantsMap.AddField(new RandField(1));
+
+            for (int i = 0; i < 3; ++i)
+            {
+                var dungeon = DungeonGen.Make();
+                if (ChooseLocation(world,dungeon) is PointD pos)
+                    world.AddFeature(dungeon, pos);
+            }
 
             for (int i = 0; i < 2; ++i)
             {
-                var dungeonMap = DungeonGen.MakeMap();
-                // TODO: Choose a location
-                var dungeon = new Dungeon(dungeonMap, new Location(world, new Grid.PointF(4, 4), 0));
-                world.Features.Add(dungeon);
+                var town = new Settlement();
+                if (ChooseLocation(world, town) is PointD pos)
+                    world.AddFeature(town, pos);
             }
-
 
             foreach (var f in world.Features)
                 f.Name = f.ChooseName();
 
             return world;
+        }
+
+
+
+        public static PointD? ChooseLocation(World world, BaseFeature feature)
+        {
+            PointD? lastPos = null;
+            double lastError = double.PositiveInfinity;
+
+            const int NUM_ATTEMPTS = 100;
+            for (int i = 0; i < NUM_ATTEMPTS; ++i)
+            {
+                PointD pos = new(Rng.UniformDouble(world.Size.X), Rng.UniformDouble(world.Size.Y)); // TODO: Actual ccords
+                var error = feature.RateLocation(world, pos);
+
+                if (!double.IsNaN(error) && error < lastError)
+                {
+                    lastPos = pos;
+                    lastError = error;
+
+                    // Early out. It is good enough.
+                    if (error < 0.1)
+                        return lastPos;
+                }
+            }
+
+            return lastPos;
         }
     }
 }

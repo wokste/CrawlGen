@@ -1,16 +1,15 @@
-﻿using CrawlGen.Model;
-using CrawlGen.Model.Dungeon;
-using System;
-using System.Collections.Generic;
+﻿using CrawlGen.Model.Dungeon;
+using CrawlGen.Model.Overworld;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrawlGen.Gen
 {
     internal static class DungeonGen
     {
+        public static Dungeon Make() {
+            return new Dungeon(MakeMap());
+        }
+
         public static DungeonMap MakeMap()
         {
             int w = 4; int h = 3;

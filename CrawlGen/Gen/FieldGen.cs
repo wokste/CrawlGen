@@ -1,17 +1,11 @@
 ﻿using CrawlGen.Grid;
-using CrawlGen.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrawlGen.Gen
 {
     internal static class FieldGen
     {
         public interface IField {
-            public double Get(PointF pos);
+            public double Get(PointD pos);
         }
 
         public class RandField : IField
@@ -23,7 +17,7 @@ namespace CrawlGen.Gen
                 Max = max;
             }
 
-            public double Get(PointF pos) => Rng.UniformDouble(Max);
+            public double Get(PointD pos) => Rng.UniformDouble(Max);
         }
 
         public class ConeField : IField {
@@ -37,7 +31,7 @@ namespace CrawlGen.Gen
             public static ConeField MakeRand()
             {
                 ConeField field = new();
-                field.SetSlope(Rng.UniformDouble(2 * Math.PI), 3);
+                field.SetSlope(Rng.UniformDouble(2 * Math.PI), 0.2);
                 field.AddCone(Rng.UniformDouble(-0.2, 0.4));
                 return field;
             }
@@ -54,11 +48,11 @@ namespace CrawlGen.Gen
                 Y = Math.Cos(alpha) * slope;
             }
 
-            public double Get(PointF pos)
+            public double Get(PointD pos)
             {
                 var (x, y) = pos.XY;
-                x = x * 2 / Width - 1;
-                y = y * 2 / Height - 1;
+                x = x * 2 - 1;
+                y = y * 2 - 1;
 
                 return Base + (x * X) + (y * Y) + (x * x * XX) + (y * y * YY) + (x * y * XY);
             }
