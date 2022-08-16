@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Out\Renderer\" />
+    <Folder Include="Writers\Renderer\" />
   </ItemGroup>
 
 </Project>
