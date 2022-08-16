@@ -1,6 +1,6 @@
 ﻿using CrawlGen.Grid;
 using CrawlGen.Model.Overworld;
-using static CrawlGen.Gen.FieldGen;
+using static CrawlGen.Gen.Fields;
 
 namespace CrawlGen.Gen
 {
@@ -8,12 +8,15 @@ namespace CrawlGen.Gen
     {
         public static World MakeWorld()
         {
-            var world = new World(15,15);
+            var world = new World(50,50);
 
-            world.HeightMap.AddField(ConeField.MakeRand());
-            world.HeightMap.AddField(new RandField(0.1));
+            for (int i = 0; i < 5; ++i)
+                world.HeightMap.Add(ConeField.MakeRand(world.Size, 5, 3));
 
-            world.PlantsMap.AddField(new RandField(1));
+            world.HeightMap.Add(SlopeField.MakeRand(world.Size, 0.05));
+            //world.HeightMap.Add(new PerlinField(Rng.UniformInt(), 5, 0.5, 5));
+
+            world.PlantsMap.Add(new PerlinField(Rng.UniformInt(), 5, 0.5, 2.5));
 
             for (int i = 0; i < 3; ++i)
             {

@@ -13,7 +13,7 @@
 
         public (int, int) XY => (X, Y);
 
-        public PointD AsReal => new PointD(X, Y);
+        public PointD AsReal => new(X, Y);
     }
 
     public struct PointD
@@ -28,5 +28,12 @@
         }
 
         public (double, double) XY => (X, Y);
+
+        internal double DistanceTo(PointD other)
+        {
+            var dx = X - other.X;
+            var dy = Y - other.Y;
+            return Math.Sqrt(dx * dx + dy * dy);
+        }
     }
 }

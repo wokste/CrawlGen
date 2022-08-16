@@ -21,8 +21,8 @@ namespace CrawlGen.Out
 
         private static void WriteGrid(World world)
         {
-            int sizeX = 40;
-            int sizeY = 20;
+            int sizeX = 100;
+            int sizeY = 50;
 
             // TODO: 1.1?
             double scaleX = (world.HeightMap.Width - 1.0001) / (double)sizeX;
@@ -42,14 +42,19 @@ namespace CrawlGen.Out
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.Write('~');
                     }
-                    else if (plants > 0.5)
+                    else if (height > 1.5)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write('^');
+                    }
+                    else if (plants > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
                         Console.Write('f');
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write('.');
                     }
                 }

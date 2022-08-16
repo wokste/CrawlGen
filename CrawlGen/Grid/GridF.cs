@@ -1,8 +1,9 @@
 ﻿using CrawlGen.Gen;
+using static CrawlGen.Gen.Fields;
 
 namespace CrawlGen.Grid
 {
-    public class GridF : Grid<double>
+    public class GridF : Grid<double>, IField
     {
         public GridF(int width, int height) : base(width, height)
         {
@@ -10,21 +11,21 @@ namespace CrawlGen.Grid
                 this[pos] = 0;
         }
 
-        internal void AddField(FieldGen.IField field)
+        internal void Add(Fields.IField field)
         {
-            double w = Width;
-            double h = Height;
             foreach (var pos in Keys)
-            {
-                PointD posF = new(pos.X / w, pos.Y / h);
-
-                this[pos] += field.Get(posF);
-            }
+                this[pos] += field.Sample(pos.AsReal);
         }
 
-        internal double Sample(PointD pos)
+        internal void Add(double v)
         {
-            double Lerp(double a, double b, double f) => (a * (1.0 - f)) + (b * f);
+            foreach (var pos in Keys)
+                this[pos] += v;
+        }
+
+        public double Sample(PointD pos)
+        {
+            static double Lerp(double a, double b, double f) => (a * (1.0 - f)) + (b * f);
 
             int xInt = (int)Math.Floor(pos.X);
             int yInt = (int)Math.Floor(pos.Y);
