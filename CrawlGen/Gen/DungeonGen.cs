@@ -13,21 +13,13 @@ namespace CrawlGen.Gen
         public static DungeonMap MakeMap()
         {
             int w = 4; int h = 3;
-            int AREA_W = 9; int AREA_H = 9;
-            DungeonMap map = new(w * AREA_W, h * AREA_H);
+            DungeonMap map = new();
 
             for (int x = 0; x < w; x++)
             {
                 for (int y = 0; y < h; y++)
                 {
-                    int roomWidth = Rng.UniformInt(AREA_W / 2, AREA_W - 1);
-                    int roomHeight = Rng.UniformInt(AREA_H / 2, AREA_H - 1);
-
-                    var room = new Room(new Grid.Rect(
-                        x * AREA_W + Rng.UniformInt(1, AREA_W - roomWidth),
-                        y * AREA_H + Rng.UniformInt(1, AREA_H - roomHeight),
-                        roomWidth,
-                        roomHeight));
+                    var room = new Room();
 
                     if (Rng.P(0.5))
                         room.Treasure.AddRange(TreasureGen.Make());
@@ -68,8 +60,6 @@ namespace CrawlGen.Gen
             room1.Connections.Add(room2);
             room2.Connections.Add(room1);
             // TODO: Is this the best way or should this be in CrawlGen.Gen?
-
-            // TODO: Carve Corridor
         }
 
         private static void SortRooms(DungeonMap map)

@@ -19,16 +19,9 @@ namespace CrawlGen.Model.Overworld
         public Location? Loc;
         public int Key = -1;
 
-        public string Name;
+        public string? Name;
 
         public abstract string ChooseName();
         public abstract IEnumerable<(string,string)> ListStats();
-
-        /// <summary> Rates a potential location for this feature. </summary>
-        /// <returns>
-        ///     An error squared number. Lower is better.
-        ///     NaN if the feature cannot be placed there, at all.
-        /// </returns>
-        public abstract double RateLocation(World world, PointD pos);
     }
 }

@@ -34,18 +34,5 @@ namespace CrawlGen.Model.Overworld
             yield return ("Type", $"{Type}");
             // TODO: Species, Defensability, Alignment
         }
-
-        public override double RateLocation(World world, PointD pos)
-        {
-            if (world.HeightMap.Sample(pos) < 0)
-                return double.NaN;
-
-            double error = 0;
-
-            // TODO: Distance from main location (Based on CR)
-            // TODO: Terrain preference (Based on type)
-
-            return error;
-        }
     }
 }

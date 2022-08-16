@@ -1,21 +1,5 @@
 ﻿namespace CrawlGen.Grid
 {
-    public struct Point
-    {
-        public readonly int X;
-        public readonly int Y;
-
-        public Point(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public (int, int) XY => (X, Y);
-
-        public PointD AsReal => new(X, Y);
-    }
-
     public struct PointD
     {
         public readonly double X;

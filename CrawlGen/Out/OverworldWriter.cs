@@ -8,7 +8,6 @@ namespace CrawlGen.Out
     {
         public static void WriteWrold(World world, HTMLPage page)
         {
-            WriteGrid(world);
             WriteLocations(world, page);
 
             foreach (var town in world.Towns)
@@ -17,49 +16,6 @@ namespace CrawlGen.Out
             foreach (var dungeon in world.Dungeons)
                 DungeonWriter.WriteDungeon(dungeon, page);
 
-        }
-
-        private static void WriteGrid(World world)
-        {
-            int sizeX = 100;
-            int sizeY = 50;
-
-            // TODO: 1.1?
-            double scaleX = (world.HeightMap.Width - 1.0001) / (double)sizeX;
-            double scaleY = (world.HeightMap.Height - 1.0001) / (double)sizeY;
-
-            for (int y = 0; y < sizeY; y++)
-            {
-                for (int x = 0; x < sizeX; x++)
-                {
-                    var pos = new PointD(x * scaleX, y * scaleY);
-
-                    var height = world.HeightMap.Sample(pos);
-                    var plants = world.PlantsMap.Sample(pos);
-
-                    if (height < 0)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.Write('~');
-                    }
-                    else if (height > 1.5)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write('^');
-                    }
-                    else if (plants > 0)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        Console.Write('f');
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write('.');
-                    }
-                }
-                Console.WriteLine();
-            }
         }
 
         public static void WriteLocations(World map, HTMLPage page)
