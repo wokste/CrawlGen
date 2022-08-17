@@ -3,7 +3,8 @@ using CrawlGen.Grid;
 
 namespace CrawlGen.Model.Overworld
 {
-    public enum SettlementType {
+    public enum SettlementType
+    {
         Village, Town, City, Fort
     }
 
@@ -20,8 +21,8 @@ namespace CrawlGen.Model.Overworld
 
         public override string ChooseName()
         {
-            string[] first = new[] { "River", "Green", "Corn", "Sea", "Rea" };
-            string[] second = new[] { "ton", "wall", "side", "don", "wich", "ding" };
+            string[] first = new[] { "River", "Green", "Black", "Red", "Grey", "Corn", "Sea", "Rea", "Aber", "Ox", "Canter", "Mar", "Farn", "Bur", "Nor", "Wo", "Ports", "salis", "Wey", "Dart", "Laven", "Bris", "Lin", "Led", "Here", "War", };
+            string[] second = new[] { "ton", "wall", "side", "don", "wich", "ding", "mouth", "loch", "lake", "shire", "bury", "stable", "gate", "ham", "burn", "moor", "bridge", "pool", "burgh" };
 
             return $"{Rng.TakeOne(first)}{Rng.TakeOne(second)} {Type}";
 
