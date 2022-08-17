@@ -14,8 +14,12 @@ namespace CrawlGen.Model.Dungeon
 
         public void ChooseName()
         {
-            string[] names = new[] { "Storage Room", "Hallway", "Library", "Dungeon Room" };
+            string[] names = new[] { "Storage Room", "Hallway", "Library", "Prison", "Dining Hall", "Courtyard", "Guard post", "Kitchen", "Labratory", "Stables", "Study/Office", "Throne Room", "Workspace", "Thophy Room" };
+            string[] prefixes = new[] { "Dusty ", "Moldy ", "Slimy ", "Foggy ", "Creepy ", "Well Maintained " };
+
             Name = Rng.TakeOne(names);
+            if (Rng.P(0.6))
+                Name = Rng.TakeOne(prefixes) + Name;
         }
 
         public void AddEncounter() {
