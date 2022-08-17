@@ -28,12 +28,22 @@ namespace CrawlGen.Gen
             foreach (var f in world.Features)
                 f.Name = f.ChooseName();
 
+            SortRooms(world);
+
             return world;
         }
 
         public static PointD? ChooseLocation(World world, BaseFeature feature)
         {
             return new(Rng.UniformDouble(MAP_WIDTH), Rng.UniformDouble(MAP_HEIGHT));
+        }
+
+        private static void SortRooms(World map)
+        {
+            // TODO: Sort based on location
+
+            for (int i = 0; i < map.Features.Count; i++)
+                map.Features[i].Key = i + 1;
         }
     }
 }

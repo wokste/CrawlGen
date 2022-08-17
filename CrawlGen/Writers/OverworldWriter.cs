@@ -21,22 +21,23 @@ namespace CrawlGen.Out
         public static void WriteLocations(World map, HTMLPage page)
         {
             page.WriteElem("h1", "Overworld"); // TODO: Name
+            using var ul = page.MakeDom("ul");
             foreach (var feature in map.Features)
             {
-                WriteFeature(feature, page);
+                page.WriteElem("li", $"{feature.Key}: {feature.Name}");
+                //if (feature.Loc?.Pos is PointD pos)
+                //    page.WriteElem("p", $"location: {pos.X},{pos.Y}");
+
+                //foreach (var (key, val) in feature.ListStats())
+                //{
+                //    page.WriteElem("p", $"{key}: {val}");
+                //}
             }
         }
 
         private static void WriteFeature(BaseFeature feature, HTMLPage page)
         {
-            page.WriteElem("h1", $"{feature.Key}: {feature.Name}");
-            if (feature.Loc?.Pos is PointD pos)
-                page.WriteElem("p", $"location: {pos.X},{pos.Y}");
-
-            foreach (var (key, val) in feature.ListStats())
-            {
-                page.WriteElem("p", $"{key}: {val}");
-            }
+            
         }
     }
 }
