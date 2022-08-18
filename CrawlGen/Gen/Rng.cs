@@ -4,9 +4,9 @@
     {
         // TODO: ThreadLocal
         // TODO: UnitTest Mocking
-        static Random Random = new();
+        static readonly Random Random = new();
 
-        public static int UniformInt(int max) => Random.Next(max);
+        public static int UniformInt(int max = int.MaxValue) => Random.Next(max);
         public static int UniformInt(int min, int max) => Random.Next(min, max);
         internal static bool P(double v) => Random.NextDouble() < v;
         internal static T TakeOne<T>(IList<T> list)=> list[Random.Next(list.Count)];

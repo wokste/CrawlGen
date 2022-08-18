@@ -26,18 +26,5 @@ namespace CrawlGen.Model.Overworld
             yield return ("Rooms", $"{Map.Rooms.Count}");
             // TODO: Expected Party Level
         }
-
-        public override double RateLocation(World world, PointD pos)
-        {
-            if (world.HeightMap.Sample(pos) < 0)
-                return double.NaN;
-
-            double error = 0;
-
-            // TODO: Distance from main location (Based on CR)
-            // TODO: Terrain preference (Based on type)
-
-            return error;
-        }
     }
 }
