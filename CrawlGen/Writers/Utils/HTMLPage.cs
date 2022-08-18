@@ -28,10 +28,19 @@ namespace CrawlGen.Out.Utils
             {
                 foreach (FieldInfo member in values.GetType().GetFields())
                 {
-                    string? txt = member.GetValue(values).ToString();
+                    string? txt = member.GetValue(values)?.ToString();
                     txt = System.Net.WebUtility.HtmlEncode(txt);
                     Console.Write($" {member.Name}=\"{txt ?? ""}\"");
                 }
+
+
+                foreach (PropertyInfo member in values.GetType().GetProperties())
+                {
+                    string? txt = member.GetValue(values)?.ToString();
+                    txt = System.Net.WebUtility.HtmlEncode(txt);
+                    Console.Write($" {member.Name}=\"{txt ?? ""}\"");
+                }
+
             }
             Console.Write(">");
             Type = type;

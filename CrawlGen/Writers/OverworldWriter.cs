@@ -24,20 +24,10 @@ namespace CrawlGen.Out
             using var ul = page.MakeDom("ul");
             foreach (var feature in map.Features)
             {
-                page.WriteElem("li", $"{feature.Key}: {feature.Name}");
-                //if (feature.Loc?.Pos is PointD pos)
-                //    page.WriteElem("p", $"location: {pos.X},{pos.Y}");
+                using var li = page.MakeDom("li");
 
-                //foreach (var (key, val) in feature.ListStats())
-                //{
-                //    page.WriteElem("p", $"{key}: {val}");
-                //}
+                page.WriteElem("a", $"{feature.Name}", feature.Anchor.Href);
             }
-        }
-
-        private static void WriteFeature(BaseFeature feature, HTMLPage page)
-        {
-            
         }
     }
 }

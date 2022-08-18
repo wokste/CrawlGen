@@ -12,7 +12,7 @@ namespace CrawlGen.Out
     {
         internal static void WriteTown(Settlement town, HTMLPage page)
         {
-            page.WriteElem("h1", town.Name);
+            page.WriteElem("h1", town.Name, town.Anchor.Id);
 
             page.WriteElem("p", $"Type: {town.Type}");
             // TODO: Rumour table

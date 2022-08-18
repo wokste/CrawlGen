@@ -65,9 +65,8 @@ namespace CrawlGen.Gen
         private static void SortRooms(DungeonMap map)
         {
             // TODO: Sort based on location
-
             for (int i = 0; i < map.Rooms.Count; i++)
-                map.Rooms[i].Key = i + 1;
+                map.Rooms[i].ID = i + 1;
         }
     }
 }

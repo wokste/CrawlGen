@@ -5,12 +5,14 @@ namespace CrawlGen.Model.Dungeon
 {
     public class Room
     {
-        public int Key = -1;
+        public int ID = -1;
+        public Anchor Anchor = new Anchor();
+
         internal List<Room> Connections = new();
         public string? Name;
         public List<string> Treasure = new();
 
-        public override string ToString() => (Name != null) ? $"{Key}: {Name}" : $"{Key}";
+        public override string ToString() => $"{ID}: {Name ?? "???"}";
 
         public void ChooseName()
         {
