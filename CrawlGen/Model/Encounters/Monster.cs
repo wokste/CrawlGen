@@ -8,22 +8,22 @@ namespace CrawlGen.Model.Encounters
 {
     public class Monster
     {
-        // Source: https://oldschoolessentials.necroticgnome.com/srd/index.php/Skeleton
-        // (C): https://oldschoolessentials.necroticgnome.com/srd/index.php/%E2%A7%BCOpen_Game_License%E2%A7%BD
         public string Name { get; init; }
         public short AC { get; init; }
         public string HD { get; init; } // < TODO: Different type
-        public Attack[] Attacks { get; init; }
+        public Attack[]? Attacks { get; init; }
         public short THACO { get; init; }
-        public string Movement { get; init; } // < TODO: Different type
+        public Movement[]? Movement { get; init; }
         public short[] Saves { get; init; } = new short[5];
         public short Morale { get; init; }
         public Alignment Alignment { get; init; }
         public short XP { get; init; }
         public short NA { get; init; }
         public short NALair { get; init; }
-        public string[] TreasureType { get; init; } // < TODO: Different type
+        public TreasureType[]? Treasure { get; init; } // < TODO: Different type
 
+        // Source: https://oldschoolessentials.necroticgnome.com/srd/index.php/Skeleton
+        // (C): https://oldschoolessentials.necroticgnome.com/srd/index.php/%E2%A7%BCOpen_Game_License%E2%A7%BD
         public static Monster MakeSkeleton() => new Monster
         {
             Name = "Skeleton",
@@ -31,29 +31,58 @@ namespace CrawlGen.Model.Encounters
             HD = "1",
             Attacks = new Attack[] { new(1, "weapon", "1d6") },
             THACO = 19,
-            Movement = "60",
+            Movement = new Movement[] { new(60) },
             Saves = new short[] { 12, 13, 14, 15, 16 },
             Morale = 12,
             Alignment = Alignment.Chaos,
             XP = 10,
             NA = 8,
             NALair = 17,
-            TreasureType = { }
+            Treasure = { }
         };
     }
 
-    public struct Attack {
-        public short Count;
-        public string Name;
-        public string Damage;
+    public record struct Attack(short Count, string Name, string Damage)
+    {
+        public override string ToString() => $"{Count} x {Name} ({Damage})";
+    }
 
-        public Attack(short count, string name, string damage)
+    public record struct TreasureType(string Type, float Weight)
+    {
+    }
+
+    public record struct Movement(short Dist, MovementType MovementType = MovementType.Normal)
+    {
+        public override string ToString()
         {
-            Count = count;
-            Name = name;
-            Damage = damage;
+            return $"{Dist}' ({Dist / 3}'){MakeTypeString()}";
         }
 
-        public override string ToString() => $"{Count} x {Name} ({Damage})";
+        private string MakeTypeString()
+        {
+            return MovementType switch
+            {
+                MovementType.Normal => "",
+                MovementType.Climb => " climbing",
+                MovementType.Float => " floating",
+                MovementType.Fly => " flying",
+                MovementType.Burrow => " burrowing",
+                MovementType.Swim => " swimming",
+                MovementType.Phase => " phasing",
+                MovementType.Teleport => " teleporting",
+            };
+        }
+    }
+
+    public enum MovementType
+    {
+        Normal,
+        Climb,
+        Float,
+        Fly,
+        Burrow,
+        Swim,
+        Phase,
+        Teleport,
     }
 }
