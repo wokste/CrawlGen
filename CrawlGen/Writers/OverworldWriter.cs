@@ -1,8 +1,8 @@
 ﻿using CrawlGen.Model.Overworld;
-using CrawlGen.Out.Utils;
+using CrawlGen.Writers.Utils;
 using CrawlGen.Grid;
 
-namespace CrawlGen.Out
+namespace CrawlGen.Writers
 {
     internal static class OverworldWriter
     {

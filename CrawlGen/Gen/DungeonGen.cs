@@ -21,10 +21,18 @@ namespace CrawlGen.Gen
                 {
                     var room = new Room();
 
-                    if (Rng.P(0.5))
+                    int treasureOdds = 1;
+
+                    if (Rng.D(6) <= 2)
+                    {
+                        room.Encounter = EncounterGen.Make();
+                        treasureOdds = 3;
+                    }
+
+                    if (Rng.D(6) <= treasureOdds)
                         room.Treasure.AddRange(TreasureGen.Make());
 
-                    CarveRoom(map, room);
+                    map.Rooms.Add(room);
                 }
             }
 
@@ -46,12 +54,6 @@ namespace CrawlGen.Gen
 
         }
 
-        private static void CarveRoom(DungeonMap map, Room room)
-        {
-            map.AddRoom(room);
-            // TODO: Carve room
-        }
-
         private static void Connect(DungeonMap map, Room room1, Room room2)
         {
             Debug.Assert(map.Rooms.Contains(room1));
@@ -59,7 +61,6 @@ namespace CrawlGen.Gen
 
             room1.Connections.Add(room2);
             room2.Connections.Add(room1);
-            // TODO: Is this the best way or should this be in CrawlGen.Gen?
         }
 
         private static void SortRooms(DungeonMap map)

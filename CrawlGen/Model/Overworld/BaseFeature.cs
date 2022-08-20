@@ -22,6 +22,5 @@ namespace CrawlGen.Model.Overworld
         public string? Name;
 
         public abstract string ChooseName();
-        public abstract IEnumerable<(string,string)> ListStats();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CrawlGen.Gen;
 using CrawlGen.Grid;
+using CrawlGen.Model.Encounters;
 
 namespace CrawlGen.Model.Dungeon
 {
@@ -11,6 +12,7 @@ namespace CrawlGen.Model.Dungeon
         internal List<Room> Connections = new();
         public string? Name;
         public List<string> Treasure = new();
+        internal Encounter? Encounter;
 
         public override string ToString() => $"{ID}: {Name ?? "???"}";
 
@@ -22,10 +24,6 @@ namespace CrawlGen.Model.Dungeon
             Name = Rng.TakeOne(names);
             if (Rng.P(0.6))
                 Name = Rng.TakeOne(prefixes) + Name;
-        }
-
-        public void AddEncounter() {
-            //TODO:
         }
     }
 }

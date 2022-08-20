@@ -20,11 +20,5 @@ namespace CrawlGen.Model.Overworld
 
             return $"{Rng.TakeOne(first)} of {Rng.TakeOne(second)}";
         }
-
-        public override IEnumerable<(string, string)> ListStats()
-        {
-            yield return ("Rooms", $"{Map.Rooms.Count}");
-            // TODO: Expected Party Level
-        }
     }
 }

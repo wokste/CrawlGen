@@ -2,5 +2,5 @@
 using CrawlGen.Gen;
 
 var world = WorldGen.MakeWorld();
-CrawlGen.Out.Utils.HTMLPage page = new();
-CrawlGen.Out.OverworldWriter.WriteWrold(world, page);
+CrawlGen.Writers.Utils.HTMLPage page = new();
+CrawlGen.Writers.OverworldWriter.WriteWrold(world, page);

@@ -11,12 +11,18 @@ namespace CrawlGen.Model.Overworld
     public class Settlement : BaseFeature
     {
         public SettlementType Type;
+        public Alignment Alignment;
 
         public Settlement()
         {
 
             SettlementType[] types = new[] { SettlementType.Village, SettlementType.Town, SettlementType.Fort };
             Type = Rng.TakeOne(types);
+
+            // TODO: Proper weighted random tables
+            // TODO: Weight based on species. Dwarves are more lawful while elves are more chaotic.
+            Alignment[] alignments = new[] { Alignment.Law, Alignment.Law, Alignment.Law, Alignment.Neutral, Alignment.Neutral, Alignment.Chaos };
+            Alignment = Rng.TakeOne(alignments);
         }
 
         public override string ChooseName()
@@ -27,13 +33,6 @@ namespace CrawlGen.Model.Overworld
             return $"{Rng.TakeOne(first)}{Rng.TakeOne(second)} {Type}";
 
             // TODO: Implement
-        }
-
-
-        public override IEnumerable<(string, string)> ListStats()
-        {
-            yield return ("Type", $"{Type}");
-            // TODO: Species, Defensability, Alignment
         }
     }
 }

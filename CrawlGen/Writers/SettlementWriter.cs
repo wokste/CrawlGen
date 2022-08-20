@@ -1,12 +1,12 @@
 ﻿using CrawlGen.Model.Overworld;
-using CrawlGen.Out.Utils;
+using CrawlGen.Writers.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrawlGen.Out
+namespace CrawlGen.Writers
 {
     internal static class SettlementWriter
     {
@@ -15,6 +15,7 @@ namespace CrawlGen.Out
             page.WriteElem("h1", town.Name, town.Anchor.Id);
 
             page.WriteElem("p", $"Type: {town.Type}");
+            page.WriteElem("p", $"Alignment: {town.Alignment}");
             // TODO: Rumour table
             // TODO: Specific buildings
             // TODO: Henchmen

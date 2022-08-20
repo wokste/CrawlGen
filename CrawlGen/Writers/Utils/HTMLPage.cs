@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace CrawlGen.Out.Utils
+namespace CrawlGen.Writers.Utils
 {
     public class HTMLPage
     {
@@ -13,6 +13,16 @@ namespace CrawlGen.Out.Utils
         internal HTMLDom MakeDom(string type, object? values = null)
         {
             return new HTMLDom(type, values);
+        }
+
+        internal void WriteKeyValue(string key, string value)
+        {
+            Console.Write($"<b>{key}</b> {value} ");
+        }
+
+        internal void Write(string v)
+        {
+            Console.Write(v);
         }
     }
 
