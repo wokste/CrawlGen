@@ -17,7 +17,7 @@ namespace CrawlGen.Model.Overworld
     public abstract class BaseFeature
     {
         public Location? Loc;
-        public Anchor Anchor = new Anchor();
+        public Anchor Anchor = new();
 
         public string? Name;
 

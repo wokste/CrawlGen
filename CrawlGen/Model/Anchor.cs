@@ -61,7 +61,7 @@ namespace CrawlGen.Model
 
         public string Stringify(uint val)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             
             const string TABLE = "RCTN3FELP6Y5BQ8JS27AZX9VDKMUGHW4";
             for (int i = 0; i < CHARS; ++i)

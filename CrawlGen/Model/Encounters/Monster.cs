@@ -21,10 +21,11 @@ namespace CrawlGen.Model.Encounters
         public short NA { get; init; }
         public short NALair { get; init; }
         public TreasureType[]? Treasure { get; init; } // < TODO: Different type
+        float Size { get; init; } = 1f;
 
         // Source: https://oldschoolessentials.necroticgnome.com/srd/index.php/Skeleton
         // (C): https://oldschoolessentials.necroticgnome.com/srd/index.php/%E2%A7%BCOpen_Game_License%E2%A7%BD
-        public static Monster MakeSkeleton() => new Monster
+        public static Monster MakeSkeleton() => new()
         {
             Name = "Skeleton",
             AC = 7,

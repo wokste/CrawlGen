@@ -8,28 +8,30 @@ namespace CrawlGen.Writers
     public static class DungeonWriter
     {
 
-        public static void WriteRoom(Room room, HTMLPage page)
+        public static void WriteRoom(Room room1, HTMLPage page)
         {
-            page.WriteElem("h2", room.ToString(), room.Anchor.Id);
+            page.WriteElem("h2", room1.ToString(), room1.Anchor.Id);
 
             {
                 using var ul = page.MakeDom("ul");
-                foreach (var conn in room.Connections)
+                foreach (Passage conn in room1.Passages)
                 {
                     using var li = page.MakeDom("li");
-                    page.WriteElem("b", ChooseDir(room, conn));
-                    var connType = "door"; // TODO: Get from the connection
+                    Room room2 = conn.GetOtherRoom(room1);
+
+                    page.WriteElem("b", ChooseDir(room1, room2));
+                    var connType = (conn.Door != null) ? $"{conn.Door}" : "passage"; // TODO: Get from the connection
                     page.Write($"A {connType} leading to the ");
-                    page.WriteElem("a", $"{conn.Name}", conn.Anchor.Href);
+                    page.WriteElem("a", $"{room2.Name}", room2.Anchor.Href);
                 }
             }
 
-            if (room.Encounter is Encounter enc) {
+            if (room1.Encounter is Encounter enc) {
                 EncounterWriter.WriteEncounter(enc, page);
             }
 
-            if (room.Treasure.Any())
-                page.WriteElem("p", $"Treasure: {string.Join(", ", room.Treasure)}");
+            if (room1.Treasure.Any())
+                page.WriteElem("p", $"Treasure: {string.Join(", ", room1.Treasure)}");
 
             // TODO: Doors
             // TODO: Proper treasure
@@ -40,10 +42,14 @@ namespace CrawlGen.Writers
             // TODO: Proper implementation
             var delta = r1.ID - r2.ID;
 
-            if (delta < 0)
-                return "West";
-            else
-                return "East";
+            return delta switch
+            {
+                -4 => "North",
+                -1 => "West",
+                +1 => "East",
+                +4 => "South",
+                _ => "Weird"
+            };
         }
 
         public static void WriteDungeon(Dungeon dungeon, HTMLPage page)

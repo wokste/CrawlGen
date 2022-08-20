@@ -10,8 +10,8 @@ namespace CrawlGenTests
         public void CanFindAdjacentRooms()
         {
             DungeonMap map = new();
-            Room r1 = new Room();
-            Room r2 = new Room();
+            Room r1 = new();
+            Room r2 = new();
             map.Rooms.Add(r1);
             map.Rooms.Add(r2);
             Assert.IsNotNull(r1);

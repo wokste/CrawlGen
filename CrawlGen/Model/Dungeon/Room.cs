@@ -7,9 +7,9 @@ namespace CrawlGen.Model.Dungeon
     public class Room
     {
         public int ID = -1;
-        public Anchor Anchor = new Anchor();
+        public Anchor Anchor = new();
 
-        internal List<Room> Connections = new();
+        internal List<Passage> Passages = new();
         public string? Name;
         public List<string> Treasure = new();
         internal Encounter? Encounter;

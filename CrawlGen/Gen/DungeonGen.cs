@@ -59,8 +59,19 @@ namespace CrawlGen.Gen
             Debug.Assert(map.Rooms.Contains(room1));
             Debug.Assert(map.Rooms.Contains(room2));
 
-            room1.Connections.Add(room2);
-            room2.Connections.Add(room1);
+            var passage = new Passage(room1, room2);
+
+            if (Rng.P(0.6))
+            {
+                // TODO: Materials based on the dungeon type and the room type.
+                DoorMaterial[] materials = new[] { DoorMaterial.Wood, DoorMaterial.Wood, DoorMaterial.Metal, DoorMaterial.Stone };
+
+                var door = new Door(Rng.TakeOne(materials));
+                if (Rng.P(0.2)) // TODO: Property of the door material
+                    door.Stuck = true;
+
+                passage.Door = door;
+            }
         }
 
         private static void SortRooms(DungeonMap map)
