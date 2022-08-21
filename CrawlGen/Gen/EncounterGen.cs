@@ -13,7 +13,7 @@ namespace CrawlGen.Gen
         {
             Monster monster = Monster.MakeSkeleton();
 
-            return new Encounter(monster, ChooseNA(monster, true));
+            return new Encounter(monster, ChooseNA(monster, false));
         }
 
         private static int ChooseNA(Monster monster, bool inLair)
