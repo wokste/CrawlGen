@@ -1,4 +1,5 @@
-﻿using CrawlGen.Model.Dungeon;
+﻿using CrawlGen.Grid;
+using CrawlGen.Model.Dungeon;
 using CrawlGen.Model.Overworld;
 using System.Diagnostics;
 
@@ -12,40 +13,32 @@ namespace CrawlGen.Gen
 
         public static DungeonMap MakeMap()
         {
-            int w = 4; int h = 3;
             DungeonMap map = new();
+            var proto = Dungeons.ProtoDungeon.Generate();
 
-            for (int x = 0; x < w; x++)
+            // Make the rooms
+            foreach (var (x, y) in proto.GetSquaresAndAssignIDs())
+                map.Rooms.Add(new Room(new PointD(x, y)));
+
+            // Connect stuff
+            foreach (var (id1, id2) in proto.GetPassages())
+                Connect(map, map.Rooms[id1], map.Rooms[id2]);
+
+            // Add encounters
+            foreach (var room in map.Rooms)
+                if (Rng.D(6) <= 2)
+                    room.Encounter = EncounterGen.Make();
+
+            // Add treasure
+            foreach (var room in map.Rooms)
             {
-                for (int y = 0; y < h; y++)
-                {
-                    var room = new Room();
+                int treasureOdds = room.Encounter != null ? 3 : 1;
 
-                    int treasureOdds = 1;
-
-                    if (Rng.D(6) <= 2)
-                    {
-                        room.Encounter = EncounterGen.Make();
-                        treasureOdds = 3;
-                    }
-
-                    if (Rng.D(6) <= treasureOdds)
-                        room.Treasure.AddRange(TreasureGen.Make());
-
-                    map.Rooms.Add(room);
-                }
+                if (Rng.D(6) <= treasureOdds)
+                    room.Treasure.AddRange(TreasureGen.Make());
             }
 
-            Room GetRoom(int x, int y) => map.Rooms[y * w + x];
-
-            for (int x = 0; x < w; x++)
-                for (int y = 0; y < h - 1; y++)
-                    Connect(map, GetRoom(x, y), GetRoom(x, y + 1));
-
-            for (int x = 0; x < w - 1; x++)
-                for (int y = 0; y < h; y++)
-                    Connect(map, GetRoom(x, y), GetRoom(x + 1, y));
-
+            // Choose names
             foreach (var room in map.Rooms)
                 room.ChooseName();
 

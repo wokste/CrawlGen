@@ -11,14 +11,14 @@ namespace CrawlGen.Gen
         public static World MakeWorld()
         {
             World world = new();
-            for (int i = 0; i < 3; ++i)
+            for (int i = 0; i < 1; ++i)
             {
                 var dungeon = DungeonGen.Make();
                 if (ChooseLocation(world,dungeon) is PointD pos)
                     world.AddFeature(dungeon, pos);
             }
 
-            for (int i = 0; i < 2; ++i)
+            for (int i = 0; i < 1; ++i)
             {
                 var town = new Settlement();
                 if (ChooseLocation(world, town) is PointD pos)

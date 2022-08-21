@@ -7,7 +7,6 @@ namespace CrawlGen.Writers
 {
     public static class DungeonWriter
     {
-
         public static void WriteRoom(Room room1, HTMLPage page)
         {
             page.WriteElem("h2", room1.ToString(), room1.Anchor.Id);
@@ -37,20 +36,7 @@ namespace CrawlGen.Writers
             // TODO: Proper treasure
         }
 
-        private static string ChooseDir(Room r1, Room r2)
-        {
-            // TODO: Proper implementation
-            var delta = r1.ID - r2.ID;
-
-            return delta switch
-            {
-                -4 => "North",
-                -1 => "West",
-                +1 => "East",
-                +4 => "South",
-                _ => "Weird"
-            };
-        }
+        private static string ChooseDir(Room r1, Room r2) => (r2.Loc - r1.Loc).ToDir();
 
         public static void WriteDungeon(Dungeon dungeon, HTMLPage page)
         {

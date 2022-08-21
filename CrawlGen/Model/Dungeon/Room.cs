@@ -13,6 +13,12 @@ namespace CrawlGen.Model.Dungeon
         public string? Name;
         public List<string> Treasure = new();
         internal Encounter? Encounter;
+        public readonly PointD Loc;
+
+        public Room(PointD loc)
+        {
+            Loc = loc;
+        }
 
         public override string ToString() => $"{ID}: {Name ?? "???"}";
 
