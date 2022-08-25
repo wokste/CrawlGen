@@ -11,10 +11,10 @@ namespace CrawlGen.Model.Encounters
         public string Name { get; init; }
         public short AC { get; init; }
         public string HD { get; init; } // < TODO: Different type
-        public Attack[]? Attacks { get; init; }
+        public string[]? Attacks { get; init; }
         public short THACO { get; init; }
         public Movement[]? Movement { get; init; }
-        public short[] Saves { get; init; } = new short[5];
+        public string Saves { get; init; }
         public short Morale { get; init; }
         public Alignment Alignment { get; init; }
         public short XP { get; init; }
@@ -30,10 +30,10 @@ namespace CrawlGen.Model.Encounters
             Name = "Skeleton",
             AC = 7,
             HD = "1",
-            Attacks = new Attack[] { new(1, "weapon", "1d6") },
+            Attacks = new string[] { "1x weapon (1d6)" },
             THACO = 19,
             Movement = new Movement[] { new(60) },
-            Saves = new short[] { 12, 13, 14, 15, 16 },
+            Saves = "D12 P13 B14 W15 S16",
             Morale = 12,
             Alignment = Alignment.Chaos,
             XP = 10,
@@ -52,8 +52,17 @@ namespace CrawlGen.Model.Encounters
     {
     }
 
-    public record struct Movement(short Dist, MovementType MovementType = MovementType.Normal)
+    public struct Movement
     {
+        public short Dist { get; set; }
+        public MovementType MovementType { get; set; } = MovementType.Normal;
+
+        public Movement(short dist, MovementType movementType = MovementType.Normal)
+        {
+            Dist = dist;
+            MovementType = movementType;
+        }
+
         public override string ToString()
         {
             return $"{Dist}' ({Dist / 3}'){MakeTypeString()}";

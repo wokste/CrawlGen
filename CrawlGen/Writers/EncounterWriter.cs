@@ -27,7 +27,7 @@ namespace CrawlGen.Writers
             page.WriteKeyValue("Att", $"{m.Attacks[0]},"); // TODO: Fix
             page.WriteKeyValue("THACO", $"{m.THACO} [{19 - m.THACO}],");
             page.WriteKeyValue("MV", $"{m.Movement[0]},"); // TODO: Fix
-            page.WriteKeyValue("SV", $"D{m.Saves[0]} W{m.Saves[1]} P{m.Saves[2]} B{m.Saves[3]} S{m.Saves[4]},");
+            page.WriteKeyValue("SV", m.Saves);
             page.WriteKeyValue("ML", $"{m.Morale},");
             page.WriteKeyValue("XP", $"{m.XP}");
 
