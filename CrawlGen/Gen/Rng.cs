@@ -14,5 +14,18 @@
 
         internal static double UniformDouble(double max = 1) => Random.NextDouble() * (max);
         internal static double UniformDouble(double min, double max) => Random.NextDouble() * (max - min) + min;
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
     }
 }

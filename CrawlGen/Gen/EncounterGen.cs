@@ -9,7 +9,7 @@ namespace CrawlGen.Gen
 {
     internal class EncounterGen
     {
-        internal static Encounter Make()
+        internal static Encounter? Make()
         {
             Monster monster = Monster.MakeSkeleton();
 

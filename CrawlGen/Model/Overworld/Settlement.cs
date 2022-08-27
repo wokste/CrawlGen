@@ -27,12 +27,10 @@ namespace CrawlGen.Model.Overworld
 
         public override string ChooseName()
         {
-            string[] first = new[] { "River", "Green", "Black", "Red", "Grey", "Corn", "Sea", "Rea", "Aber", "Ox", "Canter", "Mar", "Farn", "Bur", "Nor", "Wo", "Ports", "salis", "Wey", "Dart", "Laven", "Bris", "Lin", "Led", "Here", "War", };
-            string[] second = new[] { "ton", "wall", "side", "don", "wich", "ding", "mouth", "loch", "lake", "shire", "bury", "stable", "gate", "ham", "burn", "moor", "bridge", "pool", "burgh" };
+            var first = BucketTable<string>.FromString("River,Green,Black,Red,Grey,Corn,Sea,Rea,Aber,Ox,Canter,Mar,Farn,Bur,Nor,Wo,Ports,salis,Wey,Dart,Laven,Bris,Lin,Led,Here,War");
+            var second = BucketTable<string>.FromString("@ton,@wall,@side,@don,@wich,@ding,@mouth,@loch,@lake,@shire,@bury,@stable,@gate,@ham,@burn,@moor,@bridge,@pool,@burgh");
 
-            return $"{Rng.TakeOne(first)}{Rng.TakeOne(second)} {Type}";
-
-            // TODO: Implement
+            return Names.Make(first, second);
         }
     }
 }

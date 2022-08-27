@@ -24,10 +24,17 @@ namespace CrawlGen.Gen
             foreach (var (id1, id2) in proto.GetPassages())
                 Connect(map, map.Rooms[id1], map.Rooms[id2]);
 
+
+            BucketTable<Action<DungeonMap, Room>?> roomModifier = new();
+            roomModifier.Add(null, 1);
+            roomModifier.Add(AddCombat, 1);
+            roomModifier.Add(AddTrap, 0.5f);
+
+            var mods = roomModifier.TakeN(map.Rooms.Count);
+
             // Add encounters
-            foreach (var room in map.Rooms)
-                if (Rng.D(6) <= 2)
-                    room.Encounter = EncounterGen.Make();
+            for (int i = 0; i < map.Rooms.Count; ++i)
+                mods[i]?.Invoke(map, map.Rooms[i]);
 
             // Add treasure
             foreach (var room in map.Rooms)
@@ -45,6 +52,16 @@ namespace CrawlGen.Gen
             SortRooms(map);
             return map;
 
+        }
+
+        private static void AddCombat(DungeonMap map, Room room)
+        {
+            room.Encounter = EncounterGen.Make();
+        }
+
+        private static void AddTrap(DungeonMap map, Room room)
+        {
+            room.Treasure.Add("A FRIKKIN TRAP"); // TODO
         }
 
         private static void Connect(DungeonMap map, Room room1, Room room2)

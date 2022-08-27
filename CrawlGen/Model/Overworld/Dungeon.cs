@@ -15,10 +15,10 @@ namespace CrawlGen.Model.Overworld
 
         public override string ChooseName()
         {
-            string[] first = new[] { "Dungeon", "Keep", "Castle", "Temple", "Ruins", "Mines" };
-            string[] second = new[] { "Doom", "Chaos", "Death", "Carnage", "Rampage" };
+            var first = BucketTable<string>.FromString("Dungeon,Keep:0.3,Castle:0.6,Temple:0.6,Ruins:0.1,Mines:0.3");
+            var second = BucketTable<string>.FromString("@ of Doom,Chaos @, Deadly @,@ of Carnage,@ of Rampage");
 
-            return $"{Rng.TakeOne(first)} of {Rng.TakeOne(second)}";
+            return Names.Make(first, second);
         }
     }
 }

@@ -2,6 +2,18 @@
 using CrawlGen.Gen;
 using System.Diagnostics;
 
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+
+var serializer = new SerializerBuilder()
+    .Build();
+
+var skeletons = new CrawlGen.Model.Encounters.Monster[] { EncounterGen.Make().Monster };
+
+var yaml = serializer.Serialize(skeletons);
+System.Console.WriteLine(yaml);
+
+
 var world = WorldGen.MakeWorld();
 
 {

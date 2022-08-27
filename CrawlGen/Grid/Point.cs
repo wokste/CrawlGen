@@ -30,14 +30,17 @@ namespace CrawlGen.Grid
         internal string ToDir() {
             var dir = Atan2() * 4 / Math.PI;
             var dirI = (int)Math.Round(dir);
-            Debug.Assert(Math.Abs(dirI - dir) < 0.01); // < For now.
 
             return dirI switch
             {
                 -4 => "west",
+                -3 => "northwest",
                 -2 => "north",
+                -1 => "northeast",
                 0 => "east",
+                1 => "southeast",
                 2 => "south",
+                3 => "southwest",
                 4 => "west",
                 _ => "???",
             };
