@@ -14,7 +14,7 @@ internal static class WorldGen
         for (int i = 0; i < 1; ++i)
         {
             var gen = new DungeonGen();
-            var dungeon = gen.Dungeon;
+            var dungeon = gen.Map;
             if (ChooseLocation(world,dungeon) is PointD pos)
                 world.AddFeature(dungeon, pos);
         }

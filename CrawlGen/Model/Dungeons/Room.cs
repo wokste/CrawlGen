@@ -2,7 +2,7 @@
 using CrawlGen.Grid;
 using CrawlGen.Model.Encounters;
 
-namespace CrawlGen.Model.Dungeon;
+namespace CrawlGen.Model.Dungeons;
 
 public class Room
 {

@@ -1,6 +1,5 @@
-﻿using CrawlGen.Model.Dungeon;
+﻿using CrawlGen.Model.Dungeons;
 using CrawlGen.Model.Encounters;
-using CrawlGen.Model.Overworld;
 using CrawlGen.Writers.Utils;
 
 namespace CrawlGen.Writers;
@@ -41,7 +40,7 @@ public static class DungeonWriter
     public static void WriteDungeon(Dungeon dungeon, HTMLPage page)
     {
         page.WriteElem("h1", dungeon.Name, dungeon.Anchor.Id);
-        foreach (var room in dungeon.Map.Rooms)
+        foreach (var room in dungeon.Rooms)
             WriteRoom(room, page);
     }
 }

@@ -1,16 +1,11 @@
 ﻿using CrawlGen.Gen;
-using CrawlGen.Model.Dungeon;
+using CrawlGen.Model.Overworld;
 
-namespace CrawlGen.Model.Overworld;
+namespace CrawlGen.Model.Dungeons;
 
 public class Dungeon : BaseFeature
 {
-    public readonly DungeonMap Map;
-
-    public Dungeon(DungeonMap map)
-    {
-        Map = map;
-    }
+    public readonly List<Room> Rooms = new();
 
     public override string ChooseName()
     {

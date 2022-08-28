@@ -1,5 +1,6 @@
 ﻿using CrawlGen.Grid;
 
+using CrawlGen.Model.Dungeons;
 namespace CrawlGen.Model.Overworld;
 
 public class World

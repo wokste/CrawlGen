@@ -1,22 +1,19 @@
 ﻿using CrawlGen.Grid;
-using CrawlGen.Model.Dungeon;
-using CrawlGen.Model.Overworld;
+using CrawlGen.Model.Dungeons;
 using System.Diagnostics;
 
 namespace CrawlGen.Gen;
 
 internal class DungeonGen
 {
-    public readonly Dungeon Dungeon = new(new());
-    DungeonMap Map;
+    public readonly Dungeon Map = new();
 
     public DungeonGen()
     {
-        Map = Dungeon.Map;
         InitMap();
     }
 
-    public DungeonMap InitMap()
+    public Dungeon InitMap()
     {
         var proto = Dungeons.ProtoDungeon.Generate();
 
@@ -97,7 +94,7 @@ internal class DungeonGen
         }
     }
 
-    private void SortRooms(DungeonMap map)
+    private void SortRooms(Dungeon map)
     {
         // TODO: Sort based on location
         for (int i = 0; i < map.Rooms.Count; i++)

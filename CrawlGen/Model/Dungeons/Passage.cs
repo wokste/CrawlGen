@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace CrawlGen.Model.Dungeon;
+namespace CrawlGen.Model.Dungeons;
 
 public class Passage
 {
