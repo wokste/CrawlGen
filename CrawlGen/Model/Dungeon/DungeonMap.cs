@@ -1,9 +1,6 @@
-﻿using CrawlGen.Grid;
+﻿namespace CrawlGen.Model.Dungeon;
 
-namespace CrawlGen.Model.Dungeon
+public class DungeonMap
 {
-    public class DungeonMap
-    {
-        public readonly List<Room> Rooms = new();
-    }
+    public readonly List<Room> Rooms = new();
 }

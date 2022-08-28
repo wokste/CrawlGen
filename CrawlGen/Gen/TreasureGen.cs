@@ -1,42 +1,41 @@
-﻿namespace CrawlGen.Gen
-{
-    public record struct Treasure(string Name, int Value, int Count = 1, string? Desc = null) {
-        public int TotalValue => Value * Count;
+﻿namespace CrawlGen.Gen;
 
-        public override string ToString()
-        {
-            if (Count == 1)
-                return $"{Name} ({Value} gp)";
-            else
-                return $"{Count}x {Name} ({Value} gp each, {Value * Count} gp total)";
-        }
+public record struct Treasure(string Name, int Value, int Count = 1, string? Desc = null) {
+    public int TotalValue => Value * Count;
+
+    public override string ToString()
+    {
+        if (Count == 1)
+            return $"{Name} ({Value} gp)";
+        else
+            return $"{Count}x {Name} ({Value} gp each, {Value * Count} gp total)";
+    }
+}
+
+public static class TreasureGen
+{
+    public static Treasure Make(float averageValue)
+    {
+        Func<float, Treasure?>[] factories = new Func<float, Treasure?>[] { MakeCoins, MakeScroll };
+
+        return Rng.TakeOne(factories)(averageValue) ?? (Treasure)MakeCoins(averageValue);
     }
 
-    public static class TreasureGen
+    private static Treasure? MakeScroll(float averageValue)
     {
-        public static Treasure Make(float averageValue)
-        {
-            Func<float, Treasure?>[] factories = new Func<float, Treasure?>[] { MakeCoins, MakeScroll };
+        averageValue *= (float)Rng.UniformDouble(0.2, 0.4); // Scrolls shouldn't be too valueable
 
-            return Rng.TakeOne(factories)(averageValue) ?? (Treasure)MakeCoins(averageValue);
-        }
+        int scrollCount = Rng.D(2);
 
-        private static Treasure? MakeScroll(float averageValue)
-        {
-            averageValue *= (float)Rng.UniformDouble(0.2, 0.4); // Scrolls shouldn't be too valueable
+        double level = Math.Sqrt(averageValue / scrollCount / 25.0);
+        int levelInt = Rng.Round(level);
 
-            int scrollCount = Rng.D(2);
+        return new Treasure($"Lvl {levelInt} spell scroll", levelInt * levelInt * 25, scrollCount);
+    }
 
-            double level = Math.Sqrt(averageValue / scrollCount / 25.0);
-            int levelInt = Rng.Round(level);
-
-            return new Treasure($"Lvl {levelInt} spell scroll", levelInt * levelInt * 25, scrollCount);
-        }
-
-        private static Treasure? MakeCoins(float averageValue)
-        {
-            int gpValue = Utils.Round(averageValue * Rng.UniformDouble(0.5, 1.5) * Rng.UniformDouble(0.5, 1.5));
-            return new($"{gpValue} gp", gpValue);
-        }
+    private static Treasure? MakeCoins(float averageValue)
+    {
+        int gpValue = Utils.Round(averageValue * Rng.UniformDouble(0.5, 1.5) * Rng.UniformDouble(0.5, 1.5));
+        return new($"{gpValue} gp", gpValue);
     }
 }

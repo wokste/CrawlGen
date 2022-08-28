@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace CrawlGen.Model.Encounters;
 
-namespace CrawlGen.Model.Encounters
+internal class Encounter
 {
-    internal class Encounter
+    public Monster Monster;
+    public int Na;
+
+    public Encounter(Monster monster, int na)
     {
-        public Monster Monster;
-        public int Na;
-
-        public Encounter(Monster monster, int na)
-        {
-            Monster = monster;
-            Na = na;
-        }
-
-        public int TotalXP => Na * Monster.XP;
+        Monster = monster;
+        Na = na;
     }
+
+    public int TotalXP => Na * Monster.XP;
 }
