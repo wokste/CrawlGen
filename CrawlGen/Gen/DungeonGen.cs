@@ -5,69 +5,82 @@ using System.Diagnostics;
 
 namespace CrawlGen.Gen
 {
-    internal static class DungeonGen
+    internal class DungeonGen
     {
-        public static Dungeon Make() {
-            return new Dungeon(MakeMap());
+        public readonly Dungeon Dungeon = new(new());
+        DungeonMap Map;
+
+        public DungeonGen()
+        {
+            Map = Dungeon.Map;
+            InitMap();
         }
 
-        public static DungeonMap MakeMap()
+        public DungeonMap InitMap()
         {
-            DungeonMap map = new();
             var proto = Dungeons.ProtoDungeon.Generate();
 
             // Make the rooms
             foreach (var (x, y) in proto.GetSquaresAndAssignIDs())
-                map.Rooms.Add(new Room(new PointD(x, y)));
+                Map.Rooms.Add(new Room(new PointD(x, y)));
 
             // Connect stuff
             foreach (var (id1, id2) in proto.GetPassages())
-                Connect(map, map.Rooms[id1], map.Rooms[id2]);
+                Connect(Map.Rooms[id1], Map.Rooms[id2]);
 
-
-            BucketTable<Action<DungeonMap, Room>?> roomModifier = new();
-            roomModifier.Add(null, 1);
-            roomModifier.Add(AddCombat, 1);
-            roomModifier.Add(AddTrap, 0.5f);
-
-            var mods = roomModifier.TakeN(map.Rooms.Count);
-
-            // Add encounters
-            for (int i = 0; i < map.Rooms.Count; ++i)
-                mods[i]?.Invoke(map, map.Rooms[i]);
-
-            // Add treasure
-            foreach (var room in map.Rooms)
-            {
-                int treasureOdds = room.Encounter != null ? 3 : 1;
-
-                if (Rng.D(6) <= treasureOdds)
-                    room.Treasure.AddRange(TreasureGen.Make());
-            }
+            AddEncounters();
+            AddTreasure();
 
             // Choose names
-            foreach (var room in map.Rooms)
+            foreach (var room in Map.Rooms)
                 room.ChooseName();
 
-            SortRooms(map);
-            return map;
-
+            SortRooms(Map);
+            return Map;
         }
 
-        private static void AddCombat(DungeonMap map, Room room)
+
+        private void AddTreasure()
         {
-            room.Encounter = EncounterGen.Make();
+            float totalXP = Map.Rooms.Sum(r => r.Encounter?.TotalXP ?? 0);
+            var totalGP = totalXP * 3; // TODO: Magic number
+
+            var averageTreasurePerRoom = totalGP / Map.Rooms.Count;
+
+            int numDiscards = 5;
+            while (numDiscards > 0)
+            {
+                var treasure = TreasureGen.Make(averageTreasurePerRoom);
+
+                if (totalGP * (numDiscards + 1.0) / numDiscards < treasure.TotalValue)
+                {
+                    // The treasure was too expensive.
+                    numDiscards--;
+                    continue;
+                }
+
+                totalGP -= treasure.TotalValue;
+
+                Rng.TakeOne(Map.Rooms).Treasure.Add(treasure);
+            }
         }
 
-        private static void AddTrap(DungeonMap map, Room room)
+        void AddEncounters()
         {
-            room.Treasure.Add("A FRIKKIN TRAP"); // TODO
+            BucketTable<Action<Room>?> table = new();
+            table.Add(null, 1);
+            table.Add(r => r.Encounter = EncounterGen.Make(), 1);
+            //table.Add(r => r.Treasure.Add("A FRIKKIN TRAP"), 0.5f);
+
+            var mods = table.TakeN(Map.Rooms.Count);
+            for (int i = 0; i < Map.Rooms.Count; ++i)
+                mods[i]?.Invoke(Map.Rooms[i]);
         }
 
-        private static void Connect(DungeonMap map, Room room1, Room room2)
+        private void Connect(Room room1, Room room2)
         {
-            Debug.Assert(map.Rooms.Contains(room1));
-            Debug.Assert(map.Rooms.Contains(room2));
+            Debug.Assert(Map.Rooms.Contains(room1));
+            Debug.Assert(Map.Rooms.Contains(room2));
 
             var passage = new Passage(room1, room2);
 
@@ -84,7 +97,7 @@ namespace CrawlGen.Gen
             }
         }
 
-        private static void SortRooms(DungeonMap map)
+        private void SortRooms(DungeonMap map)
         {
             // TODO: Sort based on location
             for (int i = 0; i < map.Rooms.Count; i++)

@@ -3,7 +3,6 @@ using CrawlGen.Gen;
 using System.Diagnostics;
 
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 var serializer = new SerializerBuilder()
     .Build();

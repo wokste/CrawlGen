@@ -2,28 +2,17 @@
 
 namespace CrawlGen.Grid
 {
-    public struct PointD
+    public record struct PointD(double X, double Y)
     {
-        public readonly double X;
-        public readonly double Y;
-
-        public PointD(double x, double y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public static PointD operator +(PointD a, PointD b) => new PointD(a.X + b.X, a.Y + b.Y);
-        public static PointD operator -(PointD a, PointD b) => new PointD(a.X - b.X, a.Y - b.Y);
-
-        public (double, double) XY => (X, Y);
+        public static PointD operator +(PointD a, PointD b) => new(a.X + b.X, a.Y + b.Y);
+        public static PointD operator -(PointD a, PointD b) => new(a.X - b.X, a.Y - b.Y);
+        public void Deconstruct(out double x, out double y) => (x, y) = (X, Y);
 
         internal double DistanceTo(PointD other)
         {
             var d = this - other;
             return Math.Sqrt(d.X * d.X + d.Y * d.Y);
         }
-
 
         internal double Atan2() => Math.Atan2(Y, X);
 
@@ -33,15 +22,15 @@ namespace CrawlGen.Grid
 
             return dirI switch
             {
-                -4 => "west",
-                -3 => "northwest",
-                -2 => "north",
-                -1 => "northeast",
-                0 => "east",
-                1 => "southeast",
-                2 => "south",
-                3 => "southwest",
-                4 => "west",
+                -4 => "West",
+                -3 => "Northwest",
+                -2 => "North",
+                -1 => "Northeast",
+                0 => "East",
+                1 => "Southeast",
+                2 => "South",
+                3 => "Southwest",
+                4 => "West",
                 _ => "???",
             };
         }

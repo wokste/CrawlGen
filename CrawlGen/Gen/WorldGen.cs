@@ -13,7 +13,8 @@ namespace CrawlGen.Gen
             World world = new();
             for (int i = 0; i < 1; ++i)
             {
-                var dungeon = DungeonGen.Make();
+                var gen = new DungeonGen();
+                var dungeon = gen.Dungeon;
                 if (ChooseLocation(world,dungeon) is PointD pos)
                     world.AddFeature(dungeon, pos);
             }

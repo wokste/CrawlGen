@@ -12,6 +12,8 @@
         internal static T TakeOne<T>(IList<T> list)=> list[Random.Next(list.Count)];
         internal static int D(int v) => Random.Next(v) + 1;
 
+        internal static int Round(double val) => (int)Math.Floor(val + Random.NextDouble());
+
         internal static double UniformDouble(double max = 1) => Random.NextDouble() * (max);
         internal static double UniformDouble(double min, double max) => Random.NextDouble() * (max - min) + min;
 

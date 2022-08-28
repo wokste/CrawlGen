@@ -16,5 +16,7 @@ namespace CrawlGen.Model.Encounters
             Monster = monster;
             Na = na;
         }
+
+        public int TotalXP => Na * Monster.XP;
     }
 }

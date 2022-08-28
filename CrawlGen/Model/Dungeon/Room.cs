@@ -11,7 +11,7 @@ namespace CrawlGen.Model.Dungeon
 
         internal List<Passage> Passages = new();
         public string? Name;
-        public List<string> Treasure = new();
+        public List<Treasure> Treasure = new();
         internal Encounter? Encounter;
         public readonly PointD Loc;
 
